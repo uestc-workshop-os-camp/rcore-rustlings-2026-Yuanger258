@@ -6,7 +6,7 @@
 // Execute `rustlings hint lifetimes2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
 
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
@@ -16,12 +16,13 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     }
 }
 
-fn main() {
+fn main() {//这里的string1的生命周期是从19一直到27结束 string2从22到25 ，所以应该把
     let string1 = String::from("long string is long");
-    let result;
-    {
+   
+    
         let string2 = String::from("xyz");
+        let result;
         result = longest(string1.as_str(), string2.as_str());
-    }
+    
     println!("The longest string is '{}'", result);
 }
