@@ -44,8 +44,29 @@ impl Default for Person {
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        // TODO：在这里实现字符串到 Person 的转换。
+        //如果字符串长度为0，返回默认的Person对象
+        if s.len() == 0{
+           return Person::default();}
+        //然后就是拆分字符串
+        let mut name_and_age = s.split(',');
+
+        let name = name_and_age.next();
+        if name == ""
+        {
+            return Person::default();
+        }
+
+        let age = match name_and_age.next().parse::<usize>(){
+            Ok(value)=> value,
+            Err(_) => Person::default(),
+        }
+
+
+
+        }
+
     }
-}
 
 fn main() {
     // Use the `from` function
