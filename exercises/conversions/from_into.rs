@@ -40,28 +40,43 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
         // TODO：在这里实现字符串到 Person 的转换。
-        //如果字符串长度为0，返回默认的Person对象
-        if s.len() == 0{
-           return Person::default();}
+
         //然后就是拆分字符串
         let mut name_and_age = s.split(',');
 
-        let name = name_and_age.next();
-        if name == ""
+        let name_ = match name_and_age.next(){
+            Some(value)=> value,
+            None => return Person::default(),
+        };
+        if name_ == ""
         {
             return Person::default();
         }
 
-        let age = match name_and_age.next().parse::<usize>(){
+        let agestr = match name_and_age.next(){
+            Some(value)=> value,
+            None => return Person::default()
+        };
+        let age = match agestr.parse::<usize>(){
             Ok(value)=> value,
-            Err(_) => Person::default(),
-        }
+            Err(_) => return Person::default(),
+        };
 
+
+
+        if name_and_age.next().is_some() {
+    return Person::default();
+}
+
+        Person{
+            name: name_.to_string(),
+            age: age,
+        }
 
 
         }
