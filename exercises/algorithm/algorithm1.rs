@@ -147,9 +147,9 @@ where
         while(ptra.is_some||ptrb.is_some){
             let mut chosen = match (ptra,ptrb){
                 (Some(a),Some(b))=> unsafe{
-
+                    
                 }
-            }
+            };
 
         }
 		Self {
