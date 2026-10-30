@@ -2,7 +2,7 @@
 	heap
 	This question requires you to implement a binary heap function
 */
-// I AM NOT DONE
+
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -38,6 +38,22 @@ where
 
     pub fn add(&mut self, value: T) {
         //TODO
+        self.count += 1;
+        self.items.push(value);
+        //计算这个新插入的结点的父结点，如果顺序不对就交换这两个结点，如果顺序对了就退出循环，就是沿着父结点找到它的位置
+        let mut index = self.count;
+
+        while index > 1{         //如果index是1，就说明这个结点是根结点，就不需要循环了
+            let  parent = self.parent_idx(index);//先找到父结点
+            //然后要比较
+            if (self.comparator)(&self.items[index],&self.items[parent]){
+                self.items.swap(index,parent);
+                index = parent;
+            }
+            else {break;}
+        }
+
+
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -58,7 +74,19 @@ where
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
         //TODO
-		0
+        //这里要算出来最小孩子的index
+        let left  = self.left_child_idx(idx);
+        let right = self.right_child_idx(idx);
+        //如果一边的孩子不存在，返回另一个孩子
+        if left > self.count{
+            right
+        }else if right > self.count{
+            left
+        }else if((self.comparator)(&self.items[left],&self.items[right])){
+            left
+        }else{
+            right}
+		
     }
 }
 
@@ -85,7 +113,28 @@ where
 
     fn next(&mut self) -> Option<T> {
         //TODO
-		None
+		if self.count == 0{
+            return None;
+        }
+        //如果不是0
+        self.items.swap(1,self.count);
+
+        let result = self.items.pop();
+        self.count -= 1;
+        if self.count > 0{
+            let mut index = 1;
+            while self.children_present(index){
+                let child = self.smallest_child_idx(index);
+
+                if(self.comparator)(&self.items[child],&self.items[index]){
+                    self.items.swap(index,child);
+                    index = child;
+                }else{break;}
+
+            }
+        }
+        
+        result
     }
 }
 

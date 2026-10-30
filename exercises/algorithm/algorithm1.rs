@@ -2,7 +2,7 @@
 	single linked list merge
 	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
 */
-// I AM NOT DONE
+
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
@@ -69,62 +69,51 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{       //所以最后就是在这里写出来merge的逻辑什么的
-        /*
-        pub fn merge(list_a: LinkedList<T>, list_b: LinkedList<T>) -> Self
+	pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self
 where
     T: Ord,
 {
-    // 两个指针分别指向两个链表当前待处理的节点
-    let mut p_a = list_a.start;
-    let mut p_b = list_b.start;
-
-    // 创建一个空的结果链表
     let mut merged = Self::new();
 
-    // 只要还有一个链表存在未处理的节点，就继续
-    while p_a.is_some() || p_b.is_some() {
-        // 选择较小的节点，并提前移动对应的指针
-        let mut chosen = match (p_a, p_b) {
-            (Some(a), Some(b)) => unsafe {
+    let mut ptra = list_a.start;
+    let mut ptrb = list_b.start;
+
+    while ptra.is_some() || ptrb.is_some() {
+        let mut chosen = match (ptra, ptrb) {
+            (Some(mut a), Some(mut b)) => unsafe {
                 if a.as_ref().val <= b.as_ref().val {
-                    p_a = a.as_ref().next;
+                    ptra = a.as_ref().next;
                     a
                 } else {
-                    p_b = b.as_ref().next;
+                    ptrb = b.as_ref().next;
                     b
                 }
             },
 
-            // A 为空，直接处理 B 剩余的节点
-            (None, Some(b)) => {
-                p_b = unsafe { b.as_ref().next };
-                b
+            (Some(a), None) => {
+                ptra = unsafe { a.as_ref().next };
+                a
             }
 
-            // B 为空，直接处理 A 剩余的节点
-            (Some(a), None) => {
-                p_a = unsafe { a.as_ref().next };
-                a
+            (None, Some(b)) => {
+                ptrb = unsafe { b.as_ref().next };
+                b
             }
 
             (None, None) => unreachable!(),
         };
 
-        // 先断开所选节点原来的 next 连接
+        // 断开原来的 next 指针
         unsafe {
             chosen.as_mut().next = None;
         }
 
-        // 将所选节点接到结果链表的末尾
+        // 将节点接到新链表尾部
         match merged.end {
             None => {
-                // 结果链表为空，所选节点就是头节点
                 merged.start = Some(chosen);
             }
             Some(mut tail) => unsafe {
-                // 原尾节点指向新接入的节点
                 tail.as_mut().next = Some(chosen);
             },
         }
@@ -134,30 +123,17 @@ where
         merged.length += 1;
     }
 
+    // 原链表的节点所有权已经转移到 merged
+    list_a.length = 0;
+    list_a.start = None;
+    list_a.end = None;
+
+    list_b.length = 0;
+    list_b.start = None;
+    list_b.end = None;
+
     merged
 }
-         */
-            //思路，合并升序的两个单链表 self一共有三个参数，length就是两个链表的length之和
-		//TODO
-        let mut merged = Self::new();//新建一个链表
-
-        let mut ptra = list_a.start;
-        let mut ptrb = list_b.start;//这里先两个指针指向要处理的两个链表
-
-        while(ptra.is_some||ptrb.is_some){
-            let mut chosen = match (ptra,ptrb){
-                (Some(a),Some(b))=> unsafe{
-                    
-                }
-            };
-
-        }
-		Self {
-            length: 0,
-            start: None,
-            end: None,
-        }
-	}
 }
 
 impl<T> Display for LinkedList<T>
